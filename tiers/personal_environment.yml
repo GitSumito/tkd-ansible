@@ -1,0 +1,6 @@
+---
+- hosts: personal_environmentservers
+  name: Setup_tkd001
+  roles:
+    - role: setup-hosts/tkd001
+      tags: ["setup_hosts","setup_tkd001"]

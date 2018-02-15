@@ -1,0 +1,103 @@
+---
+# tasks file for tkd001
+#===================================================================
+# This is the work that the infrastructure team was doing.
+#- name: template /etc/httpd/conf.d/*
+#  template:
+#    src: "etc/httpd/conf.d/{{ item }}"
+#    dest: "/etc/httpd/conf.d/{{ item }}"
+#  with_items:
+#    - rewrite.conf
+#    - ssl.conf
+#    - vhosts.conf
+
+# jq install
+- name: Add repository
+  yum_repository:
+    name: epel
+    description: EPEL YUM repo
+    baseurl: https://download.fedoraproject.org/pub/epel/$releasever/$basearch/
+    gpgcheck: yes
+- rpm_key:
+    state: present
+    key: https://dl.fedoraproject.org/pub/epel/RPM-GPG-KEY-EPEL-7
+- yum: name=jq
+
+
+# Go install      
+- name: Download the Go tarball
+  get_url:
+    url: "{{ go_download_location }}"
+    dest: /usr/local/src/{{ go_tarball }}
+    checksum: "{{ go_tarball_checksum }}"
+
+- name: Register the current Go version (if any)
+  command: /usr/local/go/bin/go version
+  ignore_errors: yes
+  register: go_version
+  changed_when: false
+
+- name: Remove old installation of Go
+  file:
+    path: /usr/local/go
+    state: absent
+  when: go_version|failed or go_version.stdout != go_version_target
+
+- name: Extract the Go tarball if Go is not yet installed or not the desired version
+  unarchive:
+    src: /usr/local/src/{{ go_tarball }}
+    dest: /usr/local
+    copy: no
+  when: go_version|failed or go_version.stdout != go_version_target
+
+- name: Add the Go bin directory to the PATH environment variable for all users
+  copy:
+    src: go-bin.sh
+    dest: /etc/profile.d
+
+- name: Set GOPATH for all users
+  copy:
+    src: go-path.sh
+    dest: /etc/profile.d
+  when: set_go_path
+
+
+# docker install
+- name: Set docker repo
+  copy:
+    src: docker-ce.repo
+    dest: /etc/yum.repos.d/docker-ce.repo
+    owner: root
+    group: root
+    mode: 0755
+
+- name: install docker
+  yum:
+    name: docker-ce
+    state: present
+
+- service: name=docker state=started
+
+- service: name=docker enabled=yes
+
+- name: Get docker-compose
+  get_url:
+    url: "https://github.com/docker/compose/releases/download/1.5.1/docker-compose-{{ansible_system}}-{{ansible_machine}}"
+    dest: /usr/local/bin/docker-compose
+  register: get_compose
+
+- name: chmod docker-compose
+  file:
+    path: /usr/local/bin/docker-compose
+    mode: "a+x"
+  when: get_compose.changed
+
+- name: Get docker-compose ver
+  shell: docker-compose --version | awk 'NR==1{print $NF}'
+  register: docker_compose_ver
+  changed_when: false
+
+- name: Install command completion
+  get_url:
+    url: "https://raw.githubusercontent.com/docker/compose/{{docker_compose_ver.stdout}}/contrib/completion/bash/docker-compose"
+    dest: /etc/bash_completion.d/docker-compose
