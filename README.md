@@ -101,3 +101,15 @@ ok: [133.242.231.69]
 PLAY RECAP **********************************************************************************************************************************************
 133.242.231.69             : ok=13   changed=0    unreachable=0    failed=0   
 ```
+
+# memo 
+
+``` bash
+git config --global user.name "GitSumito"
+git config --global user.email tsukada@sumito.jp
+git add -u .
+git add .
+git commit -m "delete something"
+git status
+git push -u origin master
+```
