@@ -12,12 +12,17 @@ Requirements
 $ vim  ~/.ansible.cfg 
 [defaults]
 roles_path = /Users/`uname -n`/tkd-ansible/roles
+
+ex)
+[defaults]
+roles_path = /Users/apple/Documents/tkd-ansible/roles
 ```
 
 
 # for CentOS
 $ vim /etc/ansible/ansible.cfg
 roles_path = /home/`uname -n`/tkd-ansible/roles
+
 ```
 
 # Set deploy host
