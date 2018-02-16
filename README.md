@@ -35,9 +35,9 @@ $ /Users/`uname -n`/tkd-ansible/roles/setup-hosts/tkd001/tasks/main.yml
 # Deploy
 ```bash
 # list
-$ ansible-playbook -i inventories/personal-environment/hosts personal_environment.yml -uroot -k --list-tasks --list-hosts
+$ ansible-playbook -i inventories/personal-environment/hosts personal_environment.yml -uroot --private-key=~/.ssh/id_rsa --list-tasks --list-hosts
 # exec
-$ ansible-playbook -i inventories/personal-environment/hosts personal_environment.yml -uroot -k
+$ ansible-playbook -i inventories/personal-environment/hosts personal_environment.yml -uroot --private-key=~/.ssh/id_rsa
 
 失敗した場合は
 --start-at-task=START_AT_TASK
