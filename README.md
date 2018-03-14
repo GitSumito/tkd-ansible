@@ -20,7 +20,10 @@ roles_path = /Users/apple/Documents/tkd-ansible/roles
 
 
 # for CentOS
-$ vim /etc/ansible/ansible.cfg
+
+$ sudo yum -y install epel-release
+$ sudo yum -y install ansible
+$ vi /etc/ansible/ansible.cfg
 roles_path = /home/`uname -n`/tkd-ansible/roles
 
 ```
@@ -29,15 +32,16 @@ roles_path = /home/`uname -n`/tkd-ansible/roles
 
 ```bash
 # fix localhost -> my tkd001 ip
+$ vi inventories/personal-environment/hosts 
 $ /Users/`uname -n`/tkd-ansible/roles/setup-hosts/tkd001/tasks/main.yml 
 ```
 
 # Deploy
 ```bash
 # list
-$ ansible-playbook -i inventories/personal-environment/hosts personal_environment.yml -uroot --private-key=~/.ssh/id_rsa --list-tasks --list-hosts
+$ ansible-playbook -i inventories/personal-environment/hosts personal_environment.yml -uroot --private-key=~/.ssh/id_rsa --list-tasks --list-hosts -k
 # exec
-$ ansible-playbook -i inventories/personal-environment/hosts personal_environment.yml -uroot --private-key=~/.ssh/id_rsa
+$ ansible-playbook -i inventories/personal-environment/hosts personal_environment.yml -uroot --private-key=~/.ssh/id_rsa -k
 
 失敗した場合は
 --start-at-task=START_AT_TASK
