@@ -101,3 +101,8 @@
   get_url:
     url: "https://raw.githubusercontent.com/docker/compose/{{docker_compose_ver.stdout}}/contrib/completion/bash/docker-compose"
     dest: /etc/bash_completion.d/docker-compose
+
+- name: install vim
+  yum:
+    name: vim
+    state: present
