@@ -23,6 +23,8 @@
     key: https://dl.fedoraproject.org/pub/epel/RPM-GPG-KEY-EPEL-7
 - yum: name=jq
 
+# TODO: should add git command
+
 
 # Go install      
 - name: Download the Go tarball
