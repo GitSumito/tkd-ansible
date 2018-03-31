@@ -97,7 +97,7 @@
   register: docker_compose_ver
   changed_when: false
 
-- name: Install command completion
-  get_url:
-    url: "https://raw.githubusercontent.com/docker/compose/{{docker_compose_ver.stdout}}/contrib/completion/bash/docker-compose"
-    dest: /etc/bash_completion.d/docker-compose
+#- name: Install command completion
+#  get_url:
+#    url: "https://raw.githubusercontent.com/docker/compose/{{docker_compose_ver.stdout}}/contrib/completion/bash/docker-compose"
+#    dest: /etc/bash_completion.d/docker-compose

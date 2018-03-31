@@ -32,7 +32,7 @@ $ /Users/`uname -n`/tkd-ansible/roles/setup-hosts/tkd001/tasks/main.yml
 # list
 $ ansible-playbook -i inventories/personal-environment/hosts personal_environment.yml -uroot -k --list-tasks --list-hosts
 # exec
-$ ansible-playbook -i inventories/personal-environment/hosts personal_environment.yml -uroot -k
+$ ansible-playbook -i inventories/personal-environment/hosts personal_environment.yml --private-key=~/.ssh/id_rsa --ask-sudo-pass
 
 失敗した場合は
 --start-at-task=START_AT_TASK
