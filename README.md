@@ -12,27 +12,40 @@ Requirements
 $ vim  ~/.ansible.cfg 
 [defaults]
 roles_path = /Users/`uname -n`/tkd-ansible/roles
+
+ex)
+[defaults]
+roles_path = /Users/apple/Documents/tkd-ansible/roles
 ```
 
 
 # for CentOS
-$ vim /etc/ansible/ansible.cfg
+
+$ sudo yum -y install epel-release
+$ sudo yum -y install ansible
+$ vi /etc/ansible/ansible.cfg
 roles_path = /home/`uname -n`/tkd-ansible/roles
+
 ```
 
 # Set deploy host
 
 ```bash
 # fix localhost -> my tkd001 ip
+$ vi inventories/personal-environment/hosts 
 $ /Users/`uname -n`/tkd-ansible/roles/setup-hosts/tkd001/tasks/main.yml 
 ```
 
 # Deploy
 ```bash
 # list
-$ ansible-playbook -i inventories/personal-environment/hosts personal_environment.yml -uroot -k --list-tasks --list-hosts
+$ ansible-playbook -i inventories/personal-environment/hosts personal_environment.yml -uroot --private-key=~/.ssh/id_rsa --list-tasks --list-hosts -k
 # exec
+<<<<<<< HEAD
 $ ansible-playbook -i inventories/personal-environment/hosts personal_environment.yml --private-key=~/.ssh/id_rsa --ask-sudo-pass
+=======
+$ ansible-playbook -i inventories/personal-environment/hosts personal_environment.yml -uroot --private-key=~/.ssh/id_rsa -k
+>>>>>>> 2b92cc2c2a99cf6332606bf7ce7bf1041de52691
 
 失敗した場合は
 --start-at-task=START_AT_TASK

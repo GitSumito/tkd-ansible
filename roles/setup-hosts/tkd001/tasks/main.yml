@@ -97,7 +97,19 @@
   register: docker_compose_ver
   changed_when: false
 
+<<<<<<< HEAD
 #- name: Install command completion
 #  get_url:
 #    url: "https://raw.githubusercontent.com/docker/compose/{{docker_compose_ver.stdout}}/contrib/completion/bash/docker-compose"
 #    dest: /etc/bash_completion.d/docker-compose
+=======
+- name: Install command completion
+  get_url:
+    url: "https://raw.githubusercontent.com/docker/compose/{{docker_compose_ver.stdout}}/contrib/completion/bash/docker-compose"
+    dest: /etc/bash_completion.d/docker-compose
+
+- name: install vim
+  yum:
+    name: vim
+    state: present
+>>>>>>> 2b92cc2c2a99cf6332606bf7ce7bf1041de52691
